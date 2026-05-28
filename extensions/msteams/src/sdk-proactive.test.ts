@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { sendMSTeamsActivityWithReference } from "./sdk-proactive.js";
 import type { MSTeamsApp } from "./sdk.js";
 
@@ -33,7 +33,12 @@ describe("sendMSTeamsActivityWithReference", () => {
     clientState.create.mockClear().mockResolvedValue({ id: "activity-1" });
   });
 
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
   it("sends through a reference-scoped API client without the protected SDK activitySender", async () => {
+    vi.stubEnv("SERVICE_URL", "https://bot.example.com/api/messages");
     const httpClient = { request: vi.fn() };
     const app = {
       client: httpClient,

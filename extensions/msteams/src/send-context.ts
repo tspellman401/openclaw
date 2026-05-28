@@ -216,7 +216,7 @@ export async function resolveMSTeamsSendContext(params: {
     cloud: sdkCloudOptions.cloud,
     conversationId,
     storedServiceUrl: safeRef.serviceUrl,
-    configuredServiceUrl: sdkCloudOptions.serviceUrl ?? process.env.SERVICE_URL,
+    configuredServiceUrl: sdkCloudOptions.serviceUrl,
   });
 
   // Create token provider adapter for Graph API / OneDrive operations

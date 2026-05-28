@@ -111,7 +111,7 @@ function buildSdkConversationReference(
       cloud: options.serviceUrlBoundary.cloud,
       conversationId,
       storedServiceUrl: serviceUrl,
-      configuredServiceUrl: options.serviceUrlBoundary.serviceUrl ?? process.env.SERVICE_URL,
+      configuredServiceUrl: options.serviceUrlBoundary.serviceUrl,
     });
   }
 
