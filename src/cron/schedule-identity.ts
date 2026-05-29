@@ -1,6 +1,5 @@
 import { normalizeOptionalString } from "../shared/string-coerce.js";
 import { coerceFiniteScheduleNumber } from "./schedule-number.js";
-import type { CronJob } from "./types.js";
 
 function readString(record: Record<string, unknown>, key: string): string | undefined {
   return normalizeOptionalString(record[key]);
@@ -76,11 +75,11 @@ export function tryCronScheduleIdentity(
 }
 
 export function cronSchedulingInputsEqual(
-  previous: Pick<CronJob, "schedule"> & { enabled?: unknown },
-  next: Pick<CronJob, "schedule"> & { enabled?: unknown },
+  previous: { schedule?: unknown; enabled?: unknown } & Record<string, unknown>,
+  next: { schedule?: unknown; enabled?: unknown } & Record<string, unknown>,
 ): boolean {
-  const previousIdentity = tryCronScheduleIdentity(previous as Record<string, unknown>);
-  const nextIdentity = tryCronScheduleIdentity(next as Record<string, unknown>);
+  const previousIdentity = tryCronScheduleIdentity(previous);
+  const nextIdentity = tryCronScheduleIdentity(next);
   return (
     previousIdentity !== undefined &&
     nextIdentity !== undefined &&
