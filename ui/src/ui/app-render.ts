@@ -3391,6 +3391,7 @@ export function renderApp(state: AppViewState) {
                 actionNotice: state.skillWorkshopActionNotice,
                 revisionKey: state.skillWorkshopRevisionKey,
                 revisionDraft: state.skillWorkshopRevisionDraft,
+                assistantName: state.assistantName,
                 counts,
                 onStatusFilterChange: (next) => (state.skillWorkshopStatusFilter = next),
                 onQueryChange: (next) => (state.skillWorkshopQuery = next),
