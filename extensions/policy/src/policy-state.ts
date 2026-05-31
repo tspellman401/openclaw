@@ -471,7 +471,7 @@ export function scanPolicyFeedSearch(
   const entries = isRecord(plugins.entries) ? plugins.entries : {};
   const feeds = isRecord(entries.feeds) ? entries.feeds : {};
   const config = isRecord(feeds.config) ? feeds.config : {};
-  if (!feedPluginEnabledForPolicy(plugins, feeds, config)) {
+  if (!feedPluginEnabledForPolicySearch(plugins, feeds, config)) {
     return undefined;
   }
   const search = isRecord(config.search) ? config.search : undefined;
@@ -1823,13 +1823,23 @@ function feedPluginEnabledForPolicy(
   feeds: Record<string, unknown>,
   config: Record<string, unknown>,
 ): boolean {
+  return (
+    feedPluginEnabledForPolicySearch(plugins, feeds, config) &&
+    (feeds.enabled === true || config.enabled === true)
+  );
+}
+
+function feedPluginEnabledForPolicySearch(
+  plugins: Record<string, unknown>,
+  feeds: Record<string, unknown>,
+  config: Record<string, unknown>,
+): boolean {
   const allow = readStringArray(plugins.allow);
   const deny = readStringArray(plugins.deny);
   return (
     plugins.enabled !== false &&
     feeds.enabled !== false &&
     config.enabled !== false &&
-    (feeds.enabled === true || config.enabled === true) &&
     !deny.includes("feeds") &&
     (allow.length === 0 || allow.includes("feeds"))
   );
