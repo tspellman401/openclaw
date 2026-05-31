@@ -321,6 +321,10 @@ export function resolveEffectiveToolInventory(
     modelId: params.modelId,
     modelApi: runtimeModelContext.modelApi,
     modelCompat,
+    modelContextWindowTokens:
+      params.contextTokenBudget ??
+      runtimeModelContext.runtimeModel?.contextTokens ??
+      runtimeModelContext.runtimeModel?.contextWindow,
     messageProvider: params.messageProvider,
     senderId: params.senderId,
     senderName: params.senderName ?? undefined,
