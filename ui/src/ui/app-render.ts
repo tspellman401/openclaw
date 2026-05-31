@@ -484,6 +484,8 @@ const MAX_SKILL_WORKSHOP_REVIEWED_KEYS = 500;
 const DEFAULT_SKILL_WORKSHOP_QUEUE_WIDTH = 360;
 const MIN_SKILL_WORKSHOP_QUEUE_WIDTH = 280;
 const MAX_SKILL_WORKSHOP_QUEUE_WIDTH = 560;
+const SKILL_WORKSHOP_ACTION_DELAY_MS = 450;
+const SKILL_WORKSHOP_NOTICE_MS = 2800;
 const CRON_THINKING_SUGGESTIONS = ["off", "minimal", "low", "medium", "high"];
 const CRON_TIMEZONE_SUGGESTIONS = [
   "UTC",
@@ -530,6 +532,7 @@ type DismissedUpdateBanner = {
 
 type SkillWorkshopReviewableProposal = {
   key: string;
+  slug?: string;
   status: string;
   version: number;
   createdAt: number;
@@ -615,6 +618,16 @@ function applySkillWorkshopReviewState<T extends SkillWorkshopReviewableProposal
   }));
 }
 
+function applySkillWorkshopStatusOverrides<T extends SkillWorkshopReviewableProposal>(
+  proposals: T[],
+  overrides: AppViewState["skillWorkshopStatusOverrides"],
+): T[] {
+  return proposals.map((proposal) => {
+    const status = overrides[proposal.key];
+    return status ? { ...proposal, status } : proposal;
+  });
+}
+
 function rememberSkillWorkshopProposalReviewed<T extends SkillWorkshopReviewableProposal>(
   reviewedKeys: string[],
   proposal: T,
@@ -626,6 +639,56 @@ function rememberSkillWorkshopProposalReviewed<T extends SkillWorkshopReviewable
   const next = [...reviewedKeys, key].slice(-MAX_SKILL_WORKSHOP_REVIEWED_KEYS);
   saveSkillWorkshopReviewedKeys(next);
   return next;
+}
+
+function runSkillWorkshopDemoAction(
+  state: AppViewState,
+  action: "apply" | "revise" | "reject",
+  key: string,
+  proposals: SkillWorkshopReviewableProposal[],
+): void {
+  if (state.skillWorkshopActionBusy) {
+    return;
+  }
+  const proposal = proposals.find((item) => item.key === key);
+  if (!proposal) {
+    return;
+  }
+  if (state.skillWorkshopActionNoticeTimer) {
+    globalThis.clearTimeout(state.skillWorkshopActionNoticeTimer);
+    state.skillWorkshopActionNoticeTimer = null;
+  }
+  state.skillWorkshopActionBusy = { key, action };
+  state.skillWorkshopActionNotice = null;
+
+  globalThis.setTimeout(() => {
+    if (
+      state.skillWorkshopActionBusy?.key !== key ||
+      state.skillWorkshopActionBusy.action !== action
+    ) {
+      return;
+    }
+
+    state.skillWorkshopActionBusy = null;
+    const nextStatus = action === "apply" ? "applied" : action === "reject" ? "rejected" : null;
+    if (nextStatus) {
+      state.skillWorkshopStatusOverrides = {
+        ...state.skillWorkshopStatusOverrides,
+        [key]: nextStatus,
+      };
+    }
+    state.skillWorkshopActionNotice = {
+      key,
+      label: action === "apply" ? "Applied" : action === "reject" ? "Rejected" : "Revision opened",
+      slug: "slug" in proposal && typeof proposal.slug === "string" ? proposal.slug : proposal.key,
+    };
+    state.skillWorkshopActionNoticeTimer = globalThis.setTimeout(() => {
+      if (state.skillWorkshopActionNotice?.key === key) {
+        state.skillWorkshopActionNotice = null;
+      }
+      state.skillWorkshopActionNoticeTimer = null;
+    }, SKILL_WORKSHOP_NOTICE_MS);
+  }, SKILL_WORKSHOP_ACTION_DELAY_MS);
 }
 
 function loadDismissedUpdateBanner(): DismissedUpdateBanner | null {
@@ -2955,7 +3018,10 @@ export function renderApp(state: AppViewState) {
         ${state.tab === "skillWorkshop"
           ? renderLazyView(lazySkillWorkshop, (m) => {
               const proposals = applySkillWorkshopReviewState(
-                m.getDemoSkillWorkshopProposals(),
+                applySkillWorkshopStatusOverrides(
+                  m.getDemoSkillWorkshopProposals(),
+                  state.skillWorkshopStatusOverrides,
+                ),
                 state.skillWorkshopReviewedKeys,
               );
               const counts = m.countProposals(proposals);
@@ -2981,6 +3047,8 @@ export function renderApp(state: AppViewState) {
                 filePreviewKey: state.skillWorkshopFilePreviewKey,
                 filePreviewQuery: state.skillWorkshopFilePreviewQuery,
                 queueWidth: state.skillWorkshopQueueWidth,
+                actionBusy: state.skillWorkshopActionBusy,
+                actionNotice: state.skillWorkshopActionNotice,
                 counts,
                 onStatusFilterChange: (next) => (state.skillWorkshopStatusFilter = next),
                 onQueryChange: (next) => (state.skillWorkshopQuery = next),
@@ -3002,9 +3070,9 @@ export function renderApp(state: AppViewState) {
                 },
                 onPrev: () => goto(-1),
                 onNext: () => goto(1),
-                onApply: () => {},
-                onRevise: () => {},
-                onReject: () => {},
+                onApply: (key) => runSkillWorkshopDemoAction(state, "apply", key, proposals),
+                onRevise: (key) => runSkillWorkshopDemoAction(state, "revise", key, proposals),
+                onReject: (key) => runSkillWorkshopDemoAction(state, "reject", key, proposals),
                 onPreviewFile: (_key, path) => {
                   state.skillWorkshopFilePreviewKey = path;
                 },
