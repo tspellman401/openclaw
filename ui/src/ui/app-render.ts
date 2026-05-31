@@ -1965,7 +1965,10 @@ export function renderApp(state: AppViewState) {
       <main
         class="content ${isChat ? "content--chat" : ""} ${state.tab === "logs"
           ? "content--logs"
-          : ""} ${state.tab === "workboard" ? "content--workboard" : ""}"
+          : ""} ${state.tab === "workboard" ? "content--workboard" : ""} ${state.tab ===
+        "skillWorkshop"
+          ? "content--skill-workshop"
+          : ""}"
       >
         ${state.updateStatusBanner
           ? html`<div class="callout ${state.updateStatusBanner.tone}" role="alert">
@@ -2876,7 +2879,6 @@ export function renderApp(state: AppViewState) {
                 onNext: () => goto(1),
                 onApply: () => {},
                 onRevise: () => {},
-                onSetAside: () => {},
                 onReject: () => {},
                 onPreviewFile: (_key, path) => {
                   state.skillWorkshopFilePreviewKey = path;
