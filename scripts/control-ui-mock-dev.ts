@@ -7,6 +7,10 @@ import {
   createControlUiMockGatewayInitScript,
   type ControlUiMockGatewayScenario,
 } from "../ui/src/test-helpers/control-ui-e2e.ts";
+import {
+  resolveSourcePackageAliasesForVite,
+  resolveTsconfigPathAliasesForVite,
+} from "../ui/vite.config.ts";
 
 type CliOptions = {
   host: string;
@@ -190,6 +194,49 @@ function searchPrefixes(term: string): string[] {
 
 function createChatPickerScenario(): ControlUiMockGatewayScenario {
   const baseTime = Date.parse("2026-05-22T09:00:00.000Z");
+  const workspaceFiles = [
+    {
+      missing: false,
+      name: "AGENTS.md",
+      path: "/mock/workspace/AGENTS.md",
+      size: 2148,
+      updatedAtMs: baseTime - 120_000,
+    },
+    {
+      missing: false,
+      name: "plan.md",
+      path: "/mock/workspace/plan.md",
+      size: 912,
+      updatedAtMs: baseTime - 90_000,
+    },
+    {
+      missing: false,
+      name: "notes/context.md",
+      path: "/mock/workspace/notes/context.md",
+      size: 1620,
+      updatedAtMs: baseTime - 30_000,
+    },
+  ];
+  const workspaceListCases = ["main", "alpha", "openclaw-mock"].map((agentId) => ({
+    match: { agentId },
+    response: {
+      agentId,
+      files: workspaceFiles,
+      workspace: "/mock/workspace",
+    },
+  }));
+  const workspaceFileCases = ["main", "alpha", "openclaw-mock"].map((agentId) => ({
+    match: { agentId, name: "AGENTS.md" },
+    response: {
+      agentId,
+      file: {
+        ...workspaceFiles[0],
+        content:
+          "# AGENTS.md\n\nMock workspace instructions for the composer rail.\n\n- Keep tool output compact.\n- Prefer right-rail context over modal previews.\n",
+      },
+      workspace: "/mock/workspace",
+    },
+  }));
   const sessions = [
     sessionRow("agent:alpha", "Alpha planning", baseTime - 1_000),
     ...buildSessionRows({
@@ -219,6 +266,12 @@ function createChatPickerScenario(): ControlUiMockGatewayScenario {
     defaultAgentId: "openclaw-mock",
     historyMessages: buildScrollableChatHistory(baseTime),
     methodResponses: {
+      "agents.files.get": {
+        cases: workspaceFileCases,
+      },
+      "agents.files.list": {
+        cases: workspaceListCases,
+      },
       "sessions.list": {
         cases: [
           ...buildSearchSessionListCases(telegramSessions, searchPrefixes("telegram")),
@@ -301,6 +354,9 @@ const server = await createServer({
   },
   plugins: [createMockGatewayPlugin(scenario)],
   publicDir: path.join(uiRoot, "public"),
+  resolve: {
+    alias: [...resolveSourcePackageAliasesForVite(), ...resolveTsconfigPathAliasesForVite()],
+  },
   root: uiRoot,
   server: {
     host: options.host,

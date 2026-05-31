@@ -1233,7 +1233,6 @@ export const uk: TranslationMap = {
     autoScrollAlways: "Завжди",
     autoScrollNearBottom: "Біля низу",
     autoScrollOff: "Вимкнено",
-    focusToggle: "Перемкнути режим фокусу (сховати бічну панель і заголовок сторінки)",
     hideCronSessions: "Сховати сеанси Cron",
     showCronSessions: "Показати сеанси Cron",
     showCronSessionsHidden: "Показати сеанси Cron ({count} приховано)",

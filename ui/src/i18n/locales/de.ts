@@ -1239,7 +1239,6 @@ export const de: TranslationMap = {
     autoScrollAlways: "Immer",
     autoScrollNearBottom: "Nahe am unteren Rand",
     autoScrollOff: "Aus",
-    focusToggle: "Fokusmodus ein-/ausschalten (Seitenleiste + Kopfzeile ausblenden)",
     hideCronSessions: "Cron-Sitzungen ausblenden",
     showCronSessions: "Cron-Sitzungen anzeigen",
     showCronSessionsHidden: "Cron-Sitzungen anzeigen ({count} ausgeblendet)",

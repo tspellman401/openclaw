@@ -1236,7 +1236,6 @@ export const tr: TranslationMap = {
     autoScrollAlways: "Her zaman",
     autoScrollNearBottom: "Alta yakın",
     autoScrollOff: "Kapalı",
-    focusToggle: "Odak modunu aç/kapat (kenar çubuğunu + sayfa başlığını gizle)",
     hideCronSessions: "Cron oturumlarını gizle",
     showCronSessions: "Cron oturumlarını göster",
     showCronSessionsHidden: "Cron oturumlarını göster ({count} gizli)",

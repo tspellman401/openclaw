@@ -202,10 +202,17 @@
       "kind": "html-text",
       "name": "text",
       "path": "ui/src/ui/chat/grouped-render.ts",
-      "text": "Context"
+      "text": "Activity"
     },
     {
       "count": 1,
+      "kind": "html-text",
+      "name": "text",
+      "path": "ui/src/ui/chat/grouped-render.ts",
+      "text": "Context"
+    },
+    {
+      "count": 2,
       "kind": "html-text",
       "name": "text",
       "path": "ui/src/ui/chat/grouped-render.ts",
@@ -245,6 +252,48 @@
       "name": "title",
       "path": "ui/src/ui/chat/grouped-render.ts",
       "text": "Unknown date"
+    },
+    {
+      "count": 1,
+      "kind": "html-text",
+      "name": "text",
+      "path": "ui/src/ui/chat/session-controls.ts",
+      "text": "Model"
+    },
+    {
+      "count": 1,
+      "kind": "html-text",
+      "name": "text",
+      "path": "ui/src/ui/chat/session-controls.ts",
+      "text": "Reasoning"
+    },
+    {
+      "count": 1,
+      "kind": "html-text",
+      "name": "text",
+      "path": "ui/src/ui/chat/session-controls.ts",
+      "text": "Speed"
+    },
+    {
+      "count": 1,
+      "kind": "object-property",
+      "name": "label",
+      "path": "ui/src/ui/chat/session-controls.ts",
+      "text": "Default"
+    },
+    {
+      "count": 1,
+      "kind": "object-property",
+      "name": "label",
+      "path": "ui/src/ui/chat/session-controls.ts",
+      "text": "Fast"
+    },
+    {
+      "count": 1,
+      "kind": "object-property",
+      "name": "label",
+      "path": "ui/src/ui/chat/session-controls.ts",
+      "text": "Standard"
     },
     {
       "count": 1,
@@ -1406,14 +1455,14 @@
       "kind": "html-attribute",
       "name": "aria-label",
       "path": "ui/src/ui/views/chat.ts",
-      "text": "Exit focus mode"
+      "text": "Loading chat"
     },
     {
       "count": 1,
       "kind": "html-attribute",
       "name": "aria-label",
       "path": "ui/src/ui/views/chat.ts",
-      "text": "Loading chat"
+      "text": "Refresh files"
     },
     {
       "count": 1,
@@ -1437,11 +1486,25 @@
       "text": "Slash commands"
     },
     {
-      "count": 2,
+      "count": 1,
       "kind": "html-attribute",
       "name": "aria-label",
       "path": "ui/src/ui/views/chat.ts",
       "text": "Talk options"
+    },
+    {
+      "count": 1,
+      "kind": "html-attribute",
+      "name": "aria-label",
+      "path": "ui/src/ui/views/chat.ts",
+      "text": "Talk settings"
+    },
+    {
+      "count": 1,
+      "kind": "html-attribute",
+      "name": "aria-label",
+      "path": "ui/src/ui/views/chat.ts",
+      "text": "Workspace files"
     },
     {
       "count": 1,
@@ -1469,14 +1532,14 @@
       "kind": "html-attribute",
       "name": "title",
       "path": "ui/src/ui/views/chat.ts",
-      "text": "Exit focus mode"
+      "text": "Refresh files"
     },
     {
       "count": 1,
       "kind": "html-attribute",
       "name": "title",
       "path": "ui/src/ui/views/chat.ts",
-      "text": "Talk options"
+      "text": "Talk settings"
     },
     {
       "count": 1,
@@ -1549,6 +1612,13 @@
       "text": "Exact VAD"
     },
     {
+      "count": 1,
+      "kind": "html-text",
+      "name": "text",
+      "path": "ui/src/ui/views/chat.ts",
+      "text": "Files"
+    },
+    {
       "count": 2,
       "kind": "html-text",
       "name": "text",
@@ -1591,6 +1661,13 @@
       "text": "Lead-in"
     },
     {
+      "count": 1,
+      "kind": "html-text",
+      "name": "text",
+      "path": "ui/src/ui/views/chat.ts",
+      "text": "Loading files..."
+    },
+    {
       "count": 2,
       "kind": "html-text",
       "name": "text",
@@ -1616,6 +1693,13 @@
       "kind": "html-text",
       "name": "text",
       "path": "ui/src/ui/views/chat.ts",
+      "text": "Missing"
+    },
+    {
+      "count": 1,
+      "kind": "html-text",
+      "name": "text",
+      "path": "ui/src/ui/views/chat.ts",
       "text": "Model"
     },
     {
@@ -1631,6 +1715,13 @@
       "name": "text",
       "path": "ui/src/ui/views/chat.ts",
       "text": "No matching messages"
+    },
+    {
+      "count": 1,
+      "kind": "html-text",
+      "name": "text",
+      "path": "ui/src/ui/views/chat.ts",
+      "text": "No workspace files"
     },
     {
       "count": 1,
@@ -1700,6 +1791,13 @@
       "kind": "html-text",
       "name": "text",
       "path": "ui/src/ui/views/chat.ts",
+      "text": "Talk settings"
+    },
+    {
+      "count": 1,
+      "kind": "html-text",
+      "name": "text",
+      "path": "ui/src/ui/views/chat.ts",
       "text": "Transport"
     },
     {
@@ -1715,6 +1813,13 @@
       "name": "text",
       "path": "ui/src/ui/views/chat.ts",
       "text": "WebRTC"
+    },
+    {
+      "count": 1,
+      "kind": "html-text",
+      "name": "text",
+      "path": "ui/src/ui/views/chat.ts",
+      "text": "Workspace"
     },
     {
       "count": 1,
