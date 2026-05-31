@@ -2,6 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     {
+   
       "name": "Rebuild and Debug Gateway",
       "type": "node",
       "request": "launch",
